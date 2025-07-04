@@ -13,7 +13,8 @@ WORKDIR /app
 COPY . .
 
 # Instala dependências Python
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
 # Expõe a porta usada pelo uvicorn
 EXPOSE 10000
