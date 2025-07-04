@@ -1,0 +1,6 @@
+fastapi[standard]
+uvicorn[standard]
+yt-dlp
+ffmpeg-python
+slowapi
+apscheduler
