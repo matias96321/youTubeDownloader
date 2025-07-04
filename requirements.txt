@@ -1,6 +1,6 @@
 fastapi[standard]
 uvicorn[standard]
-yt-dlp
+yt-dlp[default]
 ffmpeg-python
 slowapi
 apscheduler
