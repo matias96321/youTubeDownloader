@@ -20,6 +20,8 @@ limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
 scheduler = BackgroundScheduler()
 
+COOKIES_PATH = os.getenv("COOKIES_PATH")
+
 clients = {}
 
 download_phase = {
@@ -101,6 +103,8 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
             'quiet': True,
             'progress_hooks': [hook]
     }
+
+    ydl_opts_download["cookiefile"] = COOKIES_PATH
 
     def youtube_download(url,ydl_opts_download,queie):
         with YoutubeDL(ydl_opts_download) as ydl:
