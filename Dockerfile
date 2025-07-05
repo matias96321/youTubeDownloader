@@ -16,6 +16,8 @@ COPY . .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
+RUN pip install yt-dlp --upgrade
+
 # Expõe a porta usada pelo uvicorn
 EXPOSE 10000
 
