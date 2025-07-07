@@ -66,6 +66,8 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
         'skip_download': True,
     }
 
+    ydl_opts_info["cookiefile"] = COOKIES_PATH
+
     with YoutubeDL(ydl_opts_info) as ydl:
 
         # Nome final do arquivo
