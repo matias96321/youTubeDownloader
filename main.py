@@ -123,7 +123,7 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
 @app.get("/api/info")
 def get_video_info(url: str = Query(...)):
 
-    with YoutubeDL({'quiet': True, 'skip_download': True}) as ydl:
+    with YoutubeDL({'quiet': True, 'skip_download': True,'cookiefile': COOKIES_PATH}) as ydl:
         info = ydl.extract_info(url, download=False)
 
         if info.get('_type') == 'playlist':
