@@ -36,7 +36,7 @@ download_phase = {
 }
 
 @app.exception_handler(RateLimitExceeded)
-def rate_limit_handler(request: Request, exc):
+def rate_limit_handler(request: Request, exc): 
     return JSONResponse(
         status_code=429,
         content={"detail": "Limite de requisições excedido. Tente novamente mais tarde."}
