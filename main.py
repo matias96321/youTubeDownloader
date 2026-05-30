@@ -20,13 +20,13 @@ limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
 scheduler = BackgroundScheduler()
 
-cookie_data = os.getenv("COOKIES_PATH")
+# cookie_data = os.getenv("COOKIES_PATH")
 
 cookie_path = 'cookies.txt'
 
-if cookie_data:
-    with open(cookie_path, "wb") as f:
-        f.write(cookie_data)
+# if cookie_data:
+#     with open(cookie_path, "wb") as f:
+#         f.write(cookie_data)
 
 clients = {}
 
