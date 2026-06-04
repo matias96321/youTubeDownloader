@@ -20,9 +20,11 @@ limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
 scheduler = BackgroundScheduler()
 
-# cookie_data = os.getenv("COOKIES_PATH")
+# Caminho original (somente leitura) e caminho temporário (com permissão de escrita)
+original_cookies = os.path.join(os.getcwd(), 'cookies.txt')
+writable_cookies = '/tmp/cookies.txt'
 
-cookie_path = 'cookies.txt'
+# cookie_data = os.getenv("COOKIES_PATH")
 
 # if cookie_data:
 #     with open(cookie_path, "wb") as f:
@@ -72,7 +74,7 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
         'skip_download': True,
     }
 
-    ydl_opts_info["cookiefile"] = cookie_path
+    ydl_opts_info["cookiefile"] = writable_cookies
 
     with YoutubeDL(ydl_opts_info) as ydl:
 
@@ -112,7 +114,7 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
             'progress_hooks': [hook]
     }
 
-    # ydl_opts_download["cookiefile"] = cookie_path
+    ydl_opts_download["cookiefile"] = writable_cookies
 
     def youtube_download(url,ydl_opts_download,queie):
         with YoutubeDL(ydl_opts_download) as ydl:
@@ -129,7 +131,7 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
 @app.get("/api/info")
 def get_video_info(url: str = Query(...)):
 
-    with YoutubeDL({'skip_download': True, 'cookiefile': cookie_path, 'user_agent': 'Mozilla/5.0', "listformats": True}) as ydl:
+    with YoutubeDL({'skip_download': True, 'cookiefile': writable_cookies, 'user_agent': 'Mozilla/5.0'}) as ydl:
         info = ydl.extract_info(url, download=False)
 
         if info.get('_type') == 'playlist':
@@ -182,6 +184,12 @@ def create_hook(progress_ws,loop):
 
 @app.on_event("startup")
 def iniciar_agendador():
+
+    if os.path.exists(original_cookies):
+        shutil.copyfile(original_cookies, writable_cookies)
+    else:
+        return print(f"error: Arquivo cookies.txt original não foi encontrado.")
+    
     scheduler.add_job(
         clean_old_files,
         'interval',
