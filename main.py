@@ -22,7 +22,7 @@ scheduler = BackgroundScheduler()
 
 # cookie_data = os.getenv("COOKIES_PATH")
 
-cookie_path = 'cookies.txt'
+cookie_path = 'cooakies.txt'
 
 # if cookie_data:
 #     with open(cookie_path, "wb") as f:
