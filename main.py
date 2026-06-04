@@ -24,7 +24,7 @@ scheduler = BackgroundScheduler()
 # Caminho original (somente leitura) e caminho temporário (com permissão de escrita)
 original_cookies = os.path.join(os.getcwd(), 'cookies.txt')
 writable_cookies = '/tmp/cookies.txt'
-
+download_path = "/tmp/downloads/"
 # cookie_data = os.getenv("COOKIES_PATH")
 
 # if cookie_data:
@@ -63,7 +63,7 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
 
     loop = asyncio.get_running_loop()  
 
-    output_dir = "downloads"
+    output_dir = download_path
     os.makedirs(output_dir, exist_ok=True)
 
     client_ip = request.client.host
@@ -151,7 +151,7 @@ def get_video_info(url: str = Query(...)):
             "duration": f"{info.get('duration', 0) // 60}min"
         }
 
-def clean_old_files(file_folder="downloads", max_time=3600):
+def clean_old_files(file_folder=download_path, max_time=3600):
     now = time.time()
     for file_name in os.listdir(file_folder):
         path = os.path.join(file_folder, file_name)
@@ -203,7 +203,7 @@ def iniciar_agendador():
         clean_old_files,
         'interval',
         minutes=30,  # Executa a cada 30 minutos
-        kwargs={"file_folder": "downloads", "max_time": 3600}
+        kwargs={"file_folder": download_path, "max_time": 3600}
     )
     scheduler.start()
 
