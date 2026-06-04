@@ -22,7 +22,7 @@ scheduler = BackgroundScheduler()
 
 # cookie_data = os.getenv("COOKIES_PATH")
 
-# cookie_path = 'cookies.txt'
+cookie_path = 'cookies.txt'
 
 # if cookie_data:
 #     with open(cookie_path, "wb") as f:
@@ -72,7 +72,7 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
         'skip_download': True,
     }
 
-    # ydl_opts_info["cookiefile"] = cookie_path
+    ydl_opts_info["cookiefile"] = cookie_path
 
     with YoutubeDL(ydl_opts_info) as ydl:
 
@@ -129,7 +129,7 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
 @app.get("/api/info")
 def get_video_info(url: str = Query(...)):
 
-    with YoutubeDL({'quiet': True, 'skip_download': True}) as ydl:
+    with YoutubeDL({'quiet': True, 'skip_download': True, cookie_path, 'user_agent': 'Mozilla/5.0'}) as ydl:
         info = ydl.extract_info(url, download=False)
 
         if info.get('_type') == 'playlist':
