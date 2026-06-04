@@ -102,7 +102,7 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
 
     if quality == "high":
         ydl_opts_download = {
-            'format': '((bestvideo[height<=1080][height>=720])/best)[ext=mp4]+bestaudio/best[ext=mp4]',
+            'format': 'bestvideo+bestaudio',
             'outtmpl': outtmpl,
             'quiet': True,
             'progress_hooks': [hook]
