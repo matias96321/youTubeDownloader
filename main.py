@@ -105,12 +105,20 @@ async def download_video(request: Request, url: str = Query(...), quality: str =
             'format': 'bestvideo+bestaudio',
             'outtmpl': outtmpl,
             'quiet': True,
+            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'http_headers': {
+                'Accept-Language': 'en-US,en;q=0.9',
+            },
             'progress_hooks': [hook]
         }
     else:
         ydl_opts_download = {
             'format': 'bestvideo[height<=480]+bestaudio/best[height<=480]',
             'outtmpl':  outtmpl,
+            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'http_headers': {
+                'Accept-Language': 'en-US,en;q=0.9',
+            },
             'quiet': True,
             'progress_hooks': [hook]
     }
